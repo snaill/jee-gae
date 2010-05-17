@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="src" path="test/src">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GTD/test/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/log4j.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="var" path="GAE_SDK_ROOT"/>
+	<classpathentry kind="var" path="GAE_SDK_ROOT/lib/impl/appengine-api-labs.jar"/>
+	<classpathentry kind="var" path="GAE_SDK_ROOT/lib/impl/appengine-api-stubs.jar"/>
+	<classpathentry kind="var" path="GAE_SDK_ROOT/lib/impl/appengine-api.jar"/>
+	<classpathentry kind="var" path="GAE_SDK_ROOT/lib/impl/appengine-local-runtime.jar"/>
+	<classpathentry kind="var" path="GAE_SDK_ROOT/lib/testing/appengine-testing.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
