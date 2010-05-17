@@ -44,8 +44,18 @@
 
 	<!-- Action Servlet -->
   <servlet>
-    <servlet-name>InboxServlet</servlet-name>
+    <servlet-name>ActionServlet</servlet-name>
     <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ActionServlet</servlet-name>
+    <url-pattern>/shuffle/action/</url-pattern>
+  </servlet-mapping> 
+
+  <servlet>
+    <servlet-name>InboxServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionListServlet</servlet-class>
     <init-param> 
        <param-name>type</param-name> 
        <param-value>inbox</param-value> 
@@ -59,7 +69,7 @@
     
   <servlet>
     <servlet-name>NextActionServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionListServlet</servlet-class>
     <init-param> 
        <param-name>type</param-name> 
        <param-value>nextAction</param-value> 
@@ -72,22 +82,22 @@
   </servlet-mapping> 
 
   <servlet>
-    <servlet-name>WaitingforServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+    <servlet-name>WaitingServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionListServlet</servlet-class>
     <init-param> 
        <param-name>type</param-name> 
-       <param-value>waitingfor</param-value> 
+       <param-value>waiting</param-value> 
      </init-param> 
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>WaitingforServlet</servlet-name>
-    <url-pattern>/shuffle/waitingfor</url-pattern>
+    <servlet-name>WaitingServlet</servlet-name>
+    <url-pattern>/shuffle/waiting</url-pattern>
   </servlet-mapping> 
   
   <servlet>
     <servlet-name>SomedayServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionListServlet</servlet-class>
     <init-param> 
        <param-name>type</param-name> 
        <param-value>someday</param-value> 
@@ -95,14 +105,8 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>WaitingforServlet</servlet-name>
+    <servlet-name>SomedayServlet</servlet-name>
     <url-pattern>/shuffle/someday</url-pattern>
   </servlet-mapping> 
-  
-  <context-param>
-    <!-- max size of the upload request -->
-    <param-name>maxSize</param-name>
-    <param-value>30000</param-value>
-  </context-param>
    
 </web-app>
