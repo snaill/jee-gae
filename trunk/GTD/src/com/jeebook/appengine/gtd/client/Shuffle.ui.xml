@@ -1,0 +1,41 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' 
+	xmlns:shuffle='urn:import:com.jeebook.appengine.gtd.client'>
+
+	<g:DockLayoutPanel unit='EM'>
+		<g:north size='4'>
+			<shuffle:TopPanel ui:field='topPanel' />
+		</g:north>
+
+		<g:center>
+			<g:TabLayoutPanel ui:field="shuffleTabPanel" barHeight="30">
+				<g:tab>
+					<g:header size='7'>Inbox</g:header>
+					<g:FlexTable ui:field='inboxTable' cellSpacing='0' cellPadding='0'/>
+				</g:tab>
+				<g:tab>
+					<g:header size='7'>Next Action</g:header>
+					<g:Label>able</g:Label>
+				</g:tab>
+				<g:tab>
+					<g:header size='7'>Waiting for</g:header>
+					<g:Label>able</g:Label>
+				</g:tab>
+				<g:tab>
+					<g:header size='7'>Someday</g:header>
+					<g:Label>able</g:Label>
+				</g:tab>
+				<g:tab>
+					<g:header size='7'>Projects</g:header>
+					<g:Label>able</g:Label>
+				</g:tab>
+				<g:tab>
+					<g:header size='7'>Contexts</g:header>
+					<shuffle:ContextPanel ui:field='context' />
+				</g:tab>
+			</g:TabLayoutPanel>
+
+		</g:center>
+	</g:DockLayoutPanel>
+
+</ui:UiBinder>

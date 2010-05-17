@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<!-- Home URL -->  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.LoginServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/shuffle/login</url-pattern>
+  </servlet-mapping> 
+  
+	<!-- Project Servlet -->  
+  <servlet>
+    <servlet-name>ProjectServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ProjectServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ProjectServlet</servlet-name>
+    <url-pattern>/shuffle/project/*</url-pattern>
+  </servlet-mapping> 
+
+	<!-- Context Servlet -->  
+  <servlet>
+    <servlet-name>ContextServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ContextServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ContextServlet</servlet-name>
+    <url-pattern>/shuffle/context/*</url-pattern>
+  </servlet-mapping> 
+
+	<!-- Action Servlet -->
+  <servlet>
+    <servlet-name>InboxServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+    <init-param> 
+       <param-name>type</param-name> 
+       <param-value>inbox</param-value> 
+     </init-param> 
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>InboxServlet</servlet-name>
+    <url-pattern>/shuffle/inbox</url-pattern>
+  </servlet-mapping> 
+    
+  <servlet>
+    <servlet-name>NextActionServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+    <init-param> 
+       <param-name>type</param-name> 
+       <param-value>nextAction</param-value> 
+     </init-param> 
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>NextActionServlet</servlet-name>
+    <url-pattern>/shuffle/nextaction</url-pattern>
+  </servlet-mapping> 
+
+  <servlet>
+    <servlet-name>WaitingforServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+    <init-param> 
+       <param-name>type</param-name> 
+       <param-value>waitingfor</param-value> 
+     </init-param> 
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>WaitingforServlet</servlet-name>
+    <url-pattern>/shuffle/waitingfor</url-pattern>
+  </servlet-mapping> 
+  
+  <servlet>
+    <servlet-name>SomedayServlet</servlet-name>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+    <init-param> 
+       <param-name>type</param-name> 
+       <param-value>someday</param-value> 
+     </init-param> 
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>WaitingforServlet</servlet-name>
+    <url-pattern>/shuffle/someday</url-pattern>
+  </servlet-mapping> 
+  
+  <context-param>
+    <!-- max size of the upload request -->
+    <param-name>maxSize</param-name>
+    <param-value>30000</param-value>
+  </context-param>
+   
+</web-app>
