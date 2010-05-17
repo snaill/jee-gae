@@ -1,0 +1,40 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:d="urn:import:com.google.gwt.user.datepicker.client">
+
+<g:VerticalPanel>
+<g:cell>
+<g:HTMLPanel>
+	<table>
+		<tr>
+			<td>Name:</td>
+			<td><g:TextBox ui:field="nameTextBox"></g:TextBox></td>
+		</tr>
+		<tr>
+			<td>Project:</td>
+			<td><g:ListBox ui:field="projectListBox"></g:ListBox><g:Button ui:field="addProjectButton">+</g:Button></td>
+		</tr>
+		<tr>
+			<td>Context:</td>
+			<td><g:ListBox ui:field="contextListBox"></g:ListBox><g:Button ui:field="addContextButton">+</g:Button></td>
+		</tr>
+		<tr>
+			<td>Detail:</td>
+			<td><g:TextArea ui:field="detailsTextArea"></g:TextArea></td>
+		</tr>
+		<tr>
+			<td>Due Time:</td>
+			<td><d:DatePicker ui:field="dueTimeDatePicker"></d:DatePicker></td>
+		</tr>
+	</table>
+</g:HTMLPanel>
+</g:cell>
+<g:cell>
+	<g:HorizontalPanel>
+		<g:cell> <g:Button text='Save and New' ui:field='saveAndNewButton' /></g:cell>
+		<g:cell> <g:Button text='Save' ui:field='saveButton' /></g:cell>
+		<g:cell> <g:Button text='Close' ui:field='closeButton' /></g:cell>
+	</g:HorizontalPanel>
+</g:cell>
+</g:VerticalPanel>
+</ui:UiBinder>
