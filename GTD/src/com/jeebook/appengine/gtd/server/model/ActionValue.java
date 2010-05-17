@@ -7,7 +7,9 @@ import org.json.JSONObject;
 
 public class ActionValue {
     private String mId;
-   
+    
+    private String mStatus;
+    
     private String mName;
 
     private String mDetails;
@@ -22,6 +24,10 @@ public class ActionValue {
     
     public final String getId() {
         return mId;
+    }
+
+    public final String getStatus() {
+        return mStatus;
     }
     
 	public final String getName() {
@@ -51,7 +57,11 @@ public class ActionValue {
     public final void setId( String id ) {
         mId = id;
     }
-    
+
+    public final void setStatus( String status ) {
+        mStatus = status;
+    }
+
 	public final void setName( String name ) {
 		mName = name;
 	}
