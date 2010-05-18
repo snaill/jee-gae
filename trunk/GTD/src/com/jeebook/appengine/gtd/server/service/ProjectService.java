@@ -9,12 +9,34 @@ import com.jeebook.appengine.gtd.server.model.Project;
 import com.jeebook.appengine.gtd.server.model.ProjectValue;
 import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 
-@SuppressWarnings("serial")
-public class ProjectService extends BaseServlet {
+public class ProjectService extends Service {
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public String get(String id) throws ServiceException {
+		User user = getUser();
+       
+		if ( id.isEmpty() ) {
+			PersistenceManager pm = JdoUtils.getPm();
+			Query query = pm.newQuery(Project.class);
+			query.setFilter("mUser == user");
+		    query.declareParameters(user.getClass().getName() + " user");
+			List<Project> projects = (List<Project>)query.execute(user);
+			List<ProjectValue> values = Project.toValue(projects);
+			return ProjectValue.toJson(values);
+		}  else {
+			PersistenceManager pm = JdoUtils.getPm();
+			Project project = pm.getObjectById(Project.class, id);
+			List<ProjectValue> values = new ArrayList<ProjectValue>();
+			values.add(project.toValue());
+			return ProjectValue.toJson(values);
+		}
+	}
 	
 	@Override
-	protected String New(User user, String json) {
-
+	public String create(String json) throws ServiceException { 
+		User user = getUser();
+		
 		ProjectValue value = ProjectValue.fromJson(json);
 		Project project = Project.fromValue(user, value);
 
@@ -30,29 +52,8 @@ public class ProjectService extends BaseServlet {
 		return value.toJson();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected String Get(User user) {
-		PersistenceManager pm = JdoUtils.getPm();
-		Query query = pm.newQuery(Project.class);
-		query.setFilter("mUser == user");
-	    query.declareParameters(user.getClass().getName() + " user");
-		List<Project> projects = (List<Project>)query.execute(user);
-		List<ProjectValue> values = Project.toValue(projects);
-		return ProjectValue.toJson(values);
-	}
-
-	@Override
-	protected String Get(String id) {
-		PersistenceManager pm = JdoUtils.getPm();
-		Project project = pm.getObjectById(Project.class, id);
-		List<ProjectValue> values = new ArrayList<ProjectValue>();
-		values.add(project.toValue());
-		return ProjectValue.toJson(values);
-	}
-
-	@Override
-	protected String Delete(String id) {
+	public String delete(String id) {
 		PersistenceManager pm = JdoUtils.getPm();
 		Project project = null;
 		try {
@@ -66,7 +67,7 @@ public class ProjectService extends BaseServlet {
 	}
 	
 	@Override
-	protected void Modify(String json) {
+	public String modify(String json) {
 		ProjectValue value = ProjectValue.fromJson(json);
 
 		//
@@ -74,6 +75,7 @@ public class ProjectService extends BaseServlet {
 		try {
 			Project project = pm.getObjectById(Project.class, value.getId());
 			project.setName(value.getName());
+			return project.toValue().toJson();
 		} finally {
 			JdoUtils.closePm();
 		}
