@@ -5,28 +5,28 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import com.google.appengine.api.users.User;
-import com.jeebook.appengine.gtd.server.model.Project;
-import com.jeebook.appengine.gtd.server.model.ProjectValue;
+import com.jeebook.appengine.gtd.server.model.Action;
+import com.jeebook.appengine.gtd.server.model.ActionValue;
 import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 
 @SuppressWarnings("serial")
-public class ProjectServlet extends BaseServlet {
+public class ActionService extends BaseServlet {
 	
 	@Override
 	protected String New(User user, String json) {
 
-		ProjectValue value = ProjectValue.fromJson(json);
-		Project project = Project.fromValue(user, value);
+		ActionValue value = ActionValue.fromJson(json);
+		Action action = Action.fromValue(user, value);
 
 		//
 		PersistenceManager pm = JdoUtils.getPm();
 		try {
-			project = pm.makePersistent(project);
+			action = pm.makePersistent(action);
 		} finally {
 			JdoUtils.closePm();
 		}
 
-		value = project.toValue();
+		value = action.toValue();
 		return value.toJson();
 	}
 
@@ -34,48 +34,49 @@ public class ProjectServlet extends BaseServlet {
 	@Override
 	protected String Get(User user) {
 		PersistenceManager pm = JdoUtils.getPm();
-		Query query = pm.newQuery(Project.class);
+		Query query = pm.newQuery(Action.class);
 		query.setFilter("mUser == user");
 	    query.declareParameters(user.getClass().getName() + " user");
-		List<Project> projects = (List<Project>)query.execute(user);
-		List<ProjectValue> values = Project.toValue(projects);
-		return ProjectValue.toJson(values);
+		List<Action> actions = (List<Action>)query.execute(user);
+		List<ActionValue> values = Action.toValue(actions);
+		return ActionValue.toJson(values);
 	}
 
 	@Override
 	protected String Get(String id) {
 		PersistenceManager pm = JdoUtils.getPm();
-		Project project = pm.getObjectById(Project.class, id);
-		List<ProjectValue> values = new ArrayList<ProjectValue>();
-		values.add(project.toValue());
-		return ProjectValue.toJson(values);
+		Action action = pm.getObjectById(Action.class, id);
+		List<ActionValue> values = new ArrayList<ActionValue>();
+		values.add(action.toValue());
+		return ActionValue.toJson(values);
 	}
 
 	@Override
 	protected String Delete(String id) {
 		PersistenceManager pm = JdoUtils.getPm();
-		Project project = null;
+		Action action = null;
 		try {
-			project = pm.getObjectById(Project.class, id);
-			pm.deletePersistent(project);
+			action = pm.getObjectById(Action.class, id);
+			pm.deletePersistent(action);
 		} finally {
 			JdoUtils.closePm();
 		}
 		
-		return project.toValue().toJson();
+		return action.toValue().toJson();
 	}
 	
 	@Override
 	protected void Modify(String json) {
-		ProjectValue value = ProjectValue.fromJson(json);
+		ActionValue value = ActionValue.fromJson(json);
 
 		//
 		PersistenceManager pm = JdoUtils.getPm();
 		try {
-			Project project = pm.getObjectById(Project.class, value.getId());
-			project.setName(value.getName());
+			Action action = pm.getObjectById(Action.class, value.getId());
+			action.setName(value.getName());
 		} finally {
 			JdoUtils.closePm();
 		}
 	}
+
 }

@@ -13,7 +13,7 @@ import com.jeebook.appengine.gtd.server.model.ActionValue;
 import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 
 @SuppressWarnings("serial")
-public class ActionListServlet extends BaseServlet {
+public class ActionListService extends BaseServlet {
 
 	String mType;
 
