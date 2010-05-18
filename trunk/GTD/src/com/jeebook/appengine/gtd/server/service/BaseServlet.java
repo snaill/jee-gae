@@ -21,23 +21,40 @@ public class BaseServlet extends HttpServlet {
 	protected String Delete(String id) { return null; }
 	protected void Modify(String json) { }
 	
+	String mType;
+
+	@Override
+	public void init() {
+		mType = this.getInitParameter("type");
+	}
+	
+	Service getService(String method) {
+//		if ( mType == "" )
+		return new ContextService();
+	}
+	
 	 @Override
 	protected  void	doGet(HttpServletRequest req, HttpServletResponse resp) 
 	{
 		 //
-		 User user = checkUser(resp);
-		 if ( null == user )
+		 Service 	s = getService(req.getMethod());
+		 if ( s == null )
 			 return;
-    	
-		 //
-		 String id = getId(req);
-		 String json;
-		 if ( id.isEmpty() )
-			 json = Get(user);
-		 else
-			 json = Get(id);
 		 
-		 Write(json, resp);
+		 String 	out;
+		 try {
+			out = s.get(req.getPathInfo());
+			if ( null != out && !out.isEmpty() )
+				Write(out, resp);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+				try {
+					resp.sendError(e.getStatus(), e.getMessage());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		}
 	}
 	
 	 @Override

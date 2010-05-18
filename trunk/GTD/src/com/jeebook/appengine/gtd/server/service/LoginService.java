@@ -8,7 +8,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 @SuppressWarnings("serial")
-public class LoginServlet extends BaseServlet {	
+public class LoginService extends BaseServlet {	
 
 	protected  void	doGet(HttpServletRequest req, HttpServletResponse resp) 
 	{

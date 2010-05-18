@@ -17,13 +17,13 @@ public class ContextTest extends LoggedInBaseTest {
     public void testNew() {
     	UserService us = UserServiceFactory.getUserService();
     	JSONObject	jo = new JSONObject();
-    	String		response;
+    	String		response = "";
     	try {
 			jo.put("name", "testContext");
 			
 			ContextServlet servlet = new ContextServlet();
 			User user = us.getCurrentUser();
-			response = servlet.New(user, jo.toString());
+//			response = servlet.New(user, jo.toString());
 //			response = sendRequest("context/", "POST", jo.toString());
 			
 			jo = new JSONObject(response);
