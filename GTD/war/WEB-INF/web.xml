@@ -4,7 +4,7 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-
+	
 	<!-- Home URL -->  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -12,7 +12,11 @@
 
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.LoginServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.BaseServlet</servlet-class>
+        <init-param> 
+       <param-name>type</param-name> 
+       <param-value>login</param-value> 
+     </init-param> 
   </servlet>
   
   <servlet-mapping>
@@ -23,7 +27,11 @@
 	<!-- Project Servlet -->  
   <servlet>
     <servlet-name>ProjectServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ProjectServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.BaseServlet</servlet-class>
+    <init-param> 
+       <param-name>type</param-name> 
+       <param-value>project</param-value> 
+     </init-param> 
   </servlet>
   
   <servlet-mapping>
@@ -34,7 +42,11 @@
 	<!-- Context Servlet -->  
   <servlet>
     <servlet-name>ContextServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ContextServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.BaseServlet</servlet-class>
+        <init-param> 
+       <param-name>type</param-name> 
+       <param-value>context</param-value> 
+     </init-param> 
   </servlet>
   
   <servlet-mapping>
@@ -45,7 +57,11 @@
 	<!-- Action Servlet -->
   <servlet>
     <servlet-name>ActionServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.BaseServlet</servlet-class>
+        <init-param> 
+       <param-name>type</param-name> 
+       <param-value>action</param-value> 
+     </init-param> 
   </servlet>
 
   <servlet-mapping>
@@ -55,7 +71,7 @@
 
   <servlet>
     <servlet-name>InboxServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionListServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.BaseServlet</servlet-class>
     <init-param> 
        <param-name>type</param-name> 
        <param-value>inbox</param-value> 
@@ -69,7 +85,7 @@
     
   <servlet>
     <servlet-name>NextActionServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionListServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.BaseServlet</servlet-class>
     <init-param> 
        <param-name>type</param-name> 
        <param-value>nextAction</param-value> 
@@ -83,7 +99,7 @@
 
   <servlet>
     <servlet-name>WaitingServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionListServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.BaseServlet</servlet-class>
     <init-param> 
        <param-name>type</param-name> 
        <param-value>waiting</param-value> 
@@ -97,7 +113,7 @@
   
   <servlet>
     <servlet-name>SomedayServlet</servlet-name>
-    <servlet-class>com.jeebook.appengine.gtd.server.service.ActionListServlet</servlet-class>
+    <servlet-class>com.jeebook.appengine.gtd.server.service.BaseServlet</servlet-class>
     <init-param> 
        <param-name>type</param-name> 
        <param-value>someday</param-value> 
