@@ -33,6 +33,7 @@ public class LoggedInBaseTest extends TestCase {
         helper.tearDown();
     }
 
+    protected LocalServiceTestHelper getHelper() { return helper; }
     protected String sendRequest(String url, String method, String json ) {
     	try {
     		String realUrl = getRealUrl(url);

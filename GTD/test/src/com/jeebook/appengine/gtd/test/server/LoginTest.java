@@ -1,32 +1,42 @@
 package com.jeebook.appengine.gtd.test.server;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 
-import org.junit.After;
-import org.junit.Before;
+import org.json.JSONObject;
 import org.junit.Test;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.jeebook.appengine.gtd.server.service.LoginService;
 
-
-public class LoginTest extends TestCase {
-    private final LocalServiceTestHelper helper =
-        new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig())
-    	.setEnvEmail("test@gmail.com").setEnvIsLoggedIn(true);
-
-    @Before
-    public void setUp() {
-        helper.setUp();
-    }
-
-    @After
-    public void tearDown() {
-        helper.tearDown();
-    }
+public class LoginTest extends LoggedInBaseTest {
 
     @Test
-    public void testNew() {
-    	
+    public void testLoggedin() {
+    	try {
+			LoginService service = new LoginService();
+			String response = service.get("");
+			
+			JSONObject jo = new JSONObject(response);
+			Assert.assertNotNull(jo.get("url"));
+			Assert.assertEquals("test@gmail.com", jo.get("email"));
+			
+		} catch (Exception e) {
+			Assert.fail();
+		}
+    }
+    
+    @Test
+    public void testNotLoggedin() {
+    	getHelper().setEnvIsLoggedIn(false);
+    	try {
+			LoginService service = new LoginService();
+			String response = service.get("");
+			
+			JSONObject jo = new JSONObject(response);
+			Assert.assertNotNull(jo.get("url"));
+			Assert.assertFalse(jo.has("email"));
+			
+		} catch (Exception e) {
+			Assert.fail();
+		}
     }
 }

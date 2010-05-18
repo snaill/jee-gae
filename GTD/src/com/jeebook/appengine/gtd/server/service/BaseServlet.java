@@ -15,12 +15,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 @SuppressWarnings("serial")
 public class BaseServlet extends HttpServlet {
 
-	protected String Get(String id) { return null; }
-	protected String Get(User user) { return null; }
-	protected String New(User user, String json) { return null; }
-	protected String Delete(String id) { return null; }
-	protected void Modify(String json) { }
-	
 	String mType;
 
 	@Override
@@ -29,8 +23,22 @@ public class BaseServlet extends HttpServlet {
 	}
 	
 	Service getService(String method) {
-//		if ( mType == "" )
-		return new ContextService();
+		if ( mType.equals( "action" ) )
+			return new LoginService();
+		else if ( mType.equals( "login" ) )
+			return new LoginService();
+		else if ( mType.equals( "context" ) )
+			return new ContextService();
+		else if ( mType.equals( "project" ) )
+			return new ProjectService();	
+		else if ( mType.equals( "inbox" ) )
+			return new ActionListService(mType);
+		else if ( mType.equals( "nextaction" ) )
+			return new ActionListService(mType);
+		else if ( mType.equals( "someday" ) )
+			return new ActionListService(mType);
+			
+		return null;
 	}
 	
 	 @Override
@@ -61,45 +69,74 @@ public class BaseServlet extends HttpServlet {
 	protected  void	doPost(HttpServletRequest req, HttpServletResponse resp) 
 	{
 		 //
-		 User user = checkUser(resp);
-		 if ( null == user )
+		 Service 	s = getService(req.getMethod());
+		 if ( s == null )
 			 return;
-		
-		//
-		String	json = Read(req);
-        json = New(user, json);
-		
-		//
-		Write(json, resp);
+		 
+		 String 	out;
+		 try {
+			String	json = Read(req);
+			out = s.create(json);
+			if ( null != out && !out.isEmpty() )
+				Write(out, resp);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+				try {
+					resp.sendError(e.getStatus(), e.getMessage());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		}
 	}
 	
 	 @Override
 	protected  void	doDelete(HttpServletRequest req, HttpServletResponse resp) 
 	{
 		 //
-		 User user = checkUser(resp);
-		 if ( null == user )
+		 Service 	s = getService(req.getMethod());
+		 if ( s == null )
 			 return;
-		
-		//
-		String id = getId(req);
-		String jo = Delete(id);
-		
-		//
-		Write(jo, resp);
+		 
+		 String 	out;
+		 try {
+			out = s.delete(req.getPathInfo());
+			if ( null != out && !out.isEmpty() )
+				Write(out, resp);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+				try {
+					resp.sendError(e.getStatus(), e.getMessage());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		}
 	}
 	
 	 @Override
 	protected  void	doPut(HttpServletRequest req, HttpServletResponse resp) 
 	{
 		 //
-		 User user = checkUser(resp);
-		 if ( null == user )
+		 Service 	s = getService(req.getMethod());
+		 if ( s == null )
 			 return;
-		
-		//
-		String	json = Read(req);
-        Modify(json);
+		 
+		 String 	out;
+		 try {
+			String	json = Read(req);
+			out = s.modify(json);
+			if ( null != out && !out.isEmpty() )
+				Write(out, resp);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+				try {
+					resp.sendError(e.getStatus(), e.getMessage());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		}
 	}
 
 	protected String Read(HttpServletRequest req)

@@ -2,38 +2,30 @@ package com.jeebook.appengine.gtd.test.server;
 
 import junit.framework.Assert;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.jeebook.appengine.gtd.server.service.ContextServlet;
+import com.jeebook.appengine.gtd.server.service.ContextService;
 
 public class ContextTest extends LoggedInBaseTest {
 
     @Test
     public void testNew() {
-    	UserService us = UserServiceFactory.getUserService();
     	JSONObject	jo = new JSONObject();
     	String		response = "";
     	try {
 			jo.put("name", "testContext");
 			
-			ContextServlet servlet = new ContextServlet();
-			User user = us.getCurrentUser();
-//			response = servlet.New(user, jo.toString());
-//			response = sendRequest("context/", "POST", jo.toString());
+			ContextService service = new ContextService();
+			response = service.create(jo.toString());
 			
 			jo = new JSONObject(response);
 			Assert.assertEquals("testContext", jo.get("name"));
 			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			Assert.fail();
 		}
-}
+    }
 
     @Test
     public void testInsert2() {

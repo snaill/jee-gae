@@ -4,35 +4,28 @@ import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.api.users.User;
 import com.jeebook.appengine.gtd.server.model.Action;
 import com.jeebook.appengine.gtd.server.model.ActionValue;
 import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 
-@SuppressWarnings("serial")
-public class ActionListService extends BaseServlet {
+public class ActionListService extends Service {
 
 	String mType;
 
-	@Override
-	public void init() {
-		mType = this.getInitParameter("type");
+	public ActionListService( String type ) {
+		mType = type;
 	}
-
+	
 	@Override
 	@SuppressWarnings("unchecked")
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-		//
-		User user = checkUser(resp);
-		if (null == user)
-			return;
+	public String get(String id) throws ServiceException { 
+		User user = getUser();
 
 		String json = "";
 		if (mType == "nextAction") {
-
+			json = "";
 		} else {
 			Integer status = Action.inboxStatus;
 			if (mType == "waiting")
@@ -52,7 +45,6 @@ public class ActionListService extends BaseServlet {
 			List<ActionValue> values = Action.toValue(actions);
 			json = ActionValue.toJson(values);
 		}
-		
-		Write(json, resp);
+		return json;
 	}
 }

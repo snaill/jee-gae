@@ -1,26 +1,21 @@
 package com.jeebook.appengine.gtd.server.service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.json.*;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-@SuppressWarnings("serial")
-public class LoginService extends BaseServlet {	
+public class LoginService extends Service {	
 
-	protected  void	doGet(HttpServletRequest req, HttpServletResponse resp) 
-	{
+	@Override
+	public String get(String id) throws ServiceException {
 		//
 	    UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
 		JSONObject jo = new JSONObject();
 		try {
-	    	if ( null == user )
-	    	{
-	    		resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				jo.put("url", userService.createLoginURL("/Shuffle.html"));
+	    	if ( null == user ) {
+	    		jo.put("url", userService.createLoginURL("/Shuffle.html"));
 	    	}
 			else
 			{
@@ -32,6 +27,6 @@ public class LoginService extends BaseServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Write(jo.toString(), resp);
+		return jo.toString();
 	}
 }

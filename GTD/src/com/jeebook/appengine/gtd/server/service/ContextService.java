@@ -13,6 +13,7 @@ import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 public class ContextService extends Service {
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public String get(String id) throws ServiceException {
 		User user = getUser();
        
@@ -32,9 +33,11 @@ public class ContextService extends Service {
 			return ContextValue.toJson(values);
 		}
 	}
-
-	protected String New(User user, String json) {
-
+	
+	@Override
+	public String create(String json) throws ServiceException { 
+		User user = getUser();
+		
 		ContextValue value = ContextValue.fromJson(json);
 		Context context = Context.fromValue(user, value);
 
@@ -50,7 +53,8 @@ public class ContextService extends Service {
 		return value.toJson();
 	}
 
-	protected String Delete(String id) {
+	@Override
+	public String delete(String id) {
 		PersistenceManager pm = JdoUtils.getPm();
 		Context context = null;
 		try {
@@ -63,7 +67,8 @@ public class ContextService extends Service {
 		return context.toValue().toJson();
 	}
 	
-	protected void Modify(String json) {
+	@Override
+	public String modify(String json) {
 		ContextValue value = ContextValue.fromJson(json);
 
 		//
@@ -71,6 +76,7 @@ public class ContextService extends Service {
 		try {
 			Context context = pm.getObjectById(Context.class, value.getId());
 			context.setName(value.getName());
+			return context.toValue().toJson();
 		} finally {
 			JdoUtils.closePm();
 		}

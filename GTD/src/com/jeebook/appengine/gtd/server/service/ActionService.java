@@ -9,12 +9,34 @@ import com.jeebook.appengine.gtd.server.model.Action;
 import com.jeebook.appengine.gtd.server.model.ActionValue;
 import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 
-@SuppressWarnings("serial")
-public class ActionService extends BaseServlet {
+public class ActionService extends Service {
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public String get(String id) throws ServiceException {
+		User user = getUser();
+       
+		if ( id.isEmpty() ) {
+			PersistenceManager pm = JdoUtils.getPm();
+			Query query = pm.newQuery(Action.class);
+			query.setFilter("mUser == user");
+		    query.declareParameters(user.getClass().getName() + " user");
+			List<Action> actions = (List<Action>)query.execute(user);
+			List<ActionValue> values = Action.toValue(actions);
+			return ActionValue.toJson(values);
+		}  else {
+			PersistenceManager pm = JdoUtils.getPm();
+			Action action = pm.getObjectById(Action.class, id);
+			List<ActionValue> values = new ArrayList<ActionValue>();
+			values.add(action.toValue());
+			return ActionValue.toJson(values);
+		}
+	}
 	
 	@Override
-	protected String New(User user, String json) {
-
+	public String create(String json) throws ServiceException { 
+		User user = getUser();
+		
 		ActionValue value = ActionValue.fromJson(json);
 		Action action = Action.fromValue(user, value);
 
@@ -30,29 +52,8 @@ public class ActionService extends BaseServlet {
 		return value.toJson();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected String Get(User user) {
-		PersistenceManager pm = JdoUtils.getPm();
-		Query query = pm.newQuery(Action.class);
-		query.setFilter("mUser == user");
-	    query.declareParameters(user.getClass().getName() + " user");
-		List<Action> actions = (List<Action>)query.execute(user);
-		List<ActionValue> values = Action.toValue(actions);
-		return ActionValue.toJson(values);
-	}
-
-	@Override
-	protected String Get(String id) {
-		PersistenceManager pm = JdoUtils.getPm();
-		Action action = pm.getObjectById(Action.class, id);
-		List<ActionValue> values = new ArrayList<ActionValue>();
-		values.add(action.toValue());
-		return ActionValue.toJson(values);
-	}
-
-	@Override
-	protected String Delete(String id) {
+	public String delete(String id) {
 		PersistenceManager pm = JdoUtils.getPm();
 		Action action = null;
 		try {
@@ -66,7 +67,7 @@ public class ActionService extends BaseServlet {
 	}
 	
 	@Override
-	protected void Modify(String json) {
+	public String modify(String json) {
 		ActionValue value = ActionValue.fromJson(json);
 
 		//
@@ -74,9 +75,9 @@ public class ActionService extends BaseServlet {
 		try {
 			Action action = pm.getObjectById(Action.class, value.getId());
 			action.setName(value.getName());
+			return action.toValue().toJson();
 		} finally {
 			JdoUtils.closePm();
 		}
 	}
-
 }

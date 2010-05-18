@@ -8,6 +8,9 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 public class Service {
 	public String get(String id) throws ServiceException { return null; }
+	public String create(String json) throws ServiceException { return null; }
+	public String delete(String id) throws ServiceException { return null; }
+	public String modify(String json) throws ServiceException { return null; }
 	
 	public User getUser() throws ServiceException {
         UserService userService = UserServiceFactory.getUserService();

@@ -1,5 +1,6 @@
 package com.jeebook.appengine.gtd.server.service;
 
+@SuppressWarnings("serial")
 public class ServiceException extends Exception {
 	int mStatus;
 	String mMessage;
