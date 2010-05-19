@@ -1,5 +1,7 @@
 package com.jeebook.appengine.gtd.server.service;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.json.*;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -16,6 +18,7 @@ public class LoginService extends Service {
 		try {
 	    	if ( null == user ) {
 	    		jo.put("url", userService.createLoginURL("/Shuffle.html"));
+	    		throw new ServiceException(HttpServletResponse.SC_UNAUTHORIZED, jo.toString());
 	    	}
 			else
 			{

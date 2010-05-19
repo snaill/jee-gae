@@ -26,7 +26,8 @@ public class AjaxRequest {
 						onSuccess(response.getText());
 						break;
 					case Response.SC_UNAUTHORIZED:{
-						JSONValue respValue = JSONParser.parse(response.getText());
+						String json = response.getText();
+						JSONValue respValue = JSONParser.parse(json);
 						JSONObject jo = respValue.isObject();
 						String url = jo.get("url").isString().stringValue();
 						redirect(url);
