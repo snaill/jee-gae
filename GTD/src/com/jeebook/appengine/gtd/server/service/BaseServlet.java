@@ -55,13 +55,7 @@ public class BaseServlet extends HttpServlet {
 			if ( null != out && !out.isEmpty() )
 				Write(out, resp);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-				try {
-					resp.sendError(e.getStatus(), e.getMessage());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			sendError(resp, e);
 		}
 	}
 	
@@ -80,13 +74,7 @@ public class BaseServlet extends HttpServlet {
 			if ( null != out && !out.isEmpty() )
 				Write(out, resp);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-				try {
-					resp.sendError(e.getStatus(), e.getMessage());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			sendError(resp, e);
 		}
 	}
 	
@@ -104,13 +92,8 @@ public class BaseServlet extends HttpServlet {
 			if ( null != out && !out.isEmpty() )
 				Write(out, resp);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-				try {
-					resp.sendError(e.getStatus(), e.getMessage());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			sendError(resp, e);
+
 		}
 	}
 	
@@ -129,13 +112,7 @@ public class BaseServlet extends HttpServlet {
 			if ( null != out && !out.isEmpty() )
 				Write(out, resp);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-				try {
-					resp.sendError(e.getStatus(), e.getMessage());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			sendError(resp, e);
 		}
 	}
 
@@ -167,6 +144,11 @@ public class BaseServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	protected void sendError(HttpServletResponse resp, ServiceException e) {
+		resp.setStatus(e.getStatus());
+		Write( e.getMessage(), resp );
 	}
 	
 	protected String getId( HttpServletRequest req ){
