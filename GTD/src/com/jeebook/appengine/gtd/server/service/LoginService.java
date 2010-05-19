@@ -10,7 +10,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class LoginService extends Service {	
 
 	@Override
-	public String get(String id) throws ServiceException {
+	public String get(String pathInfo) throws ServiceException {
 		//
 	    UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();

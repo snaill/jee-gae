@@ -14,8 +14,9 @@ public class ContextService extends Service {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public String get(String id) throws ServiceException {
+	public String get(String pathInfo) throws ServiceException {
 		User user = getUser();
+		String id = getId(pathInfo);
        
 		if ( id.isEmpty() ) {
 			PersistenceManager pm = JdoUtils.getPm();
@@ -54,7 +55,9 @@ public class ContextService extends Service {
 	}
 
 	@Override
-	public String delete(String id) {
+	public String delete(String pathInfo) {
+		String id = getId(pathInfo);
+
 		PersistenceManager pm = JdoUtils.getPm();
 		Context context = null;
 		try {
