@@ -151,13 +151,6 @@ public class BaseServlet extends HttpServlet {
 		Write( e.getMessage(), resp );
 	}
 	
-	protected String getId( HttpServletRequest req ){
-		String id = req.getPathInfo();
-		if ( id.startsWith("/"))
-			id = id.substring(1);
-		return id;
-	}
-	
     protected User checkUser(HttpServletResponse resp) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();

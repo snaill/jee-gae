@@ -2,10 +2,12 @@ package com.jeebook.appengine.gtd.test.server;
 
 import junit.framework.Assert;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
 import com.jeebook.appengine.gtd.server.service.LoginService;
+import com.jeebook.appengine.gtd.server.service.ServiceException;
 
 public class LoginTest extends LoggedInBaseTest {
 
@@ -29,12 +31,20 @@ public class LoginTest extends LoggedInBaseTest {
     	getHelper().setEnvIsLoggedIn(false);
     	try {
 			LoginService service = new LoginService();
-			String response = service.get("");
+			service.get(null);
 			
-			JSONObject jo = new JSONObject(response);
-			Assert.assertNotNull(jo.get("url"));
-			Assert.assertFalse(jo.has("email"));
-			
+    	} catch (ServiceException se) {
+    		Assert.assertEquals(401, se.getStatus());
+    		
+    		JSONObject jo;
+			try {
+				jo = new JSONObject(se.getMessage());
+
+				Assert.assertFalse(jo.has("email"));
+				Assert.assertNotNull(jo.get("url"));
+			} catch (JSONException e) {
+				Assert.fail();
+			}
 		} catch (Exception e) {
 			Assert.fail();
 		}

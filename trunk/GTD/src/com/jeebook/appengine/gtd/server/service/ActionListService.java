@@ -20,9 +20,9 @@ public class ActionListService extends Service {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public String get(String id) throws ServiceException { 
+	public String get(String pathInfo) throws ServiceException { 
 		User user = getUser();
-
+		
 		String json = "";
 		if (mType == "nextAction") {
 			json = "";
