@@ -22,7 +22,7 @@ public class Context implements Serializable {
     private User mUser;
     
     @Persistent
-	private String mName;
+	private String name;
 	
 	public final Long getId() {
 		return mId;
@@ -33,7 +33,7 @@ public class Context implements Serializable {
 	}
 	
 	public final String getName() {
-		return mName;
+		return name;
 	}
 	
 	public final void setId( Long id ) {
@@ -44,8 +44,8 @@ public class Context implements Serializable {
 	    mUser = user;
 	}
 	
-	public final void setName( String name ) {
-		mName = name;
+	public final void setName( String nam ) {
+		name = nam;
 	}
 	
 	public static Context fromValue( User user, ContextValue value ) {

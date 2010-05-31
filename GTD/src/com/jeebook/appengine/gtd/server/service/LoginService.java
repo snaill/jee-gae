@@ -1,11 +1,10 @@
 package com.jeebook.appengine.gtd.server.service;
 
 import javax.servlet.http.HttpServletResponse;
-
-import org.json.*;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.JsonObject;
 
 public class LoginService extends Service {	
 
@@ -14,22 +13,19 @@ public class LoginService extends Service {
 		//
 	    UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
-		JSONObject jo = new JSONObject();
-		try {
-	    	if ( null == user ) {
-	    		jo.put("url", userService.createLoginURL("/Shuffle.html"));
-	    		throw new ServiceException(HttpServletResponse.SC_UNAUTHORIZED, jo.toString());
-	    	}
-			else
-			{
-				jo.put("nikename", user.getNickname());
-				jo.put("email", user.getEmail());
-				jo.put("url", userService.createLogoutURL("/index.html"));				
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		JsonObject jo = new JsonObject();
+
+    	if ( null == user ) {
+    		jo.addProperty("url", userService.createLoginURL("/Shuffle.html"));
+    		throw new ServiceException(HttpServletResponse.SC_UNAUTHORIZED, jo.toString());
+    	}
+		else
+		{
+			jo.addProperty("nikename", user.getNickname());
+			jo.addProperty("email", user.getEmail());
+			jo.addProperty("url", userService.createLogoutURL("/index.html"));				
 		}
+
 		return jo.toString();
 	}
 }

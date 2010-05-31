@@ -24,13 +24,13 @@ public class ActionService extends Service {
 		    query.declareParameters(user.getClass().getName() + " user");
 			List<Action> actions = (List<Action>)query.execute(user);
 			List<ActionValue> values = Action.toValue(actions);
-			return ActionValue.toJson(values);
+			return gson.toJson(values);
 		}  else {
 			PersistenceManager pm = JdoUtils.getPm();
 			Action action = pm.getObjectById(Action.class, id);
 			List<ActionValue> values = new ArrayList<ActionValue>();
 			values.add(action.toValue());
-			return ActionValue.toJson(values);
+			return gson.toJson(values);
 		}
 	}
 	
@@ -38,7 +38,7 @@ public class ActionService extends Service {
 	public String create(String json) throws ServiceException { 
 		User user = getUser();
 		
-		ActionValue value = ActionValue.fromJson(json);
+		ActionValue value = gson.fromJson(json, ActionValue.class);
 		Action action = Action.fromValue(user, value);
 
 		//
@@ -50,7 +50,7 @@ public class ActionService extends Service {
 		}
 
 		value = action.toValue();
-		return value.toJson();
+		return gson.toJson(value);
 	}
 
 	@Override
@@ -66,19 +66,19 @@ public class ActionService extends Service {
 			JdoUtils.closePm();
 		}
 		
-		return action.toValue().toJson();
+		return gson.toJson(action.toValue());
 	}
 	
 	@Override
 	public String modify(String json) {
-		ActionValue value = ActionValue.fromJson(json);
+		ActionValue value = gson.fromJson(json, ActionValue.class);
 
 		//
 		PersistenceManager pm = JdoUtils.getPm();
 		try {
 			Action action = pm.getObjectById(Action.class, value.getId());
 			action.setName(value.getName());
-			return action.toValue().toJson();
+			return gson.toJson(action.toValue());
 		} finally {
 			JdoUtils.closePm();
 		}
