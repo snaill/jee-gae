@@ -24,13 +24,13 @@ public class ProjectService extends Service {
 		    query.declareParameters(user.getClass().getName() + " user");
 			List<Project> projects = (List<Project>)query.execute(user);
 			List<ProjectValue> values = Project.toValue(projects);
-			return ProjectValue.toJson(values);
+			return gson.toJson(values);
 		}  else {
 			PersistenceManager pm = JdoUtils.getPm();
 			Project project = pm.getObjectById(Project.class, id);
 			List<ProjectValue> values = new ArrayList<ProjectValue>();
 			values.add(project.toValue());
-			return ProjectValue.toJson(values);
+			return gson.toJson(values);
 		}
 	}
 	
@@ -38,7 +38,7 @@ public class ProjectService extends Service {
 	public String create(String json) throws ServiceException { 
 		User user = getUser();
 		
-		ProjectValue value = ProjectValue.fromJson(json);
+		ProjectValue value = gson.fromJson(json, ProjectValue.class);
 		Project project = Project.fromValue(user, value);
 
 		//
@@ -50,7 +50,7 @@ public class ProjectService extends Service {
 		}
 
 		value = project.toValue();
-		return value.toJson();
+		return gson.toJson(value);
 	}
 
 	@Override
@@ -66,19 +66,19 @@ public class ProjectService extends Service {
 			JdoUtils.closePm();
 		}
 		
-		return project.toValue().toJson();
+		return gson.toJson(project.toValue());
 	}
 	
 	@Override
 	public String modify(String json) {
-		ProjectValue value = ProjectValue.fromJson(json);
+		ProjectValue value = gson.fromJson(json, ProjectValue.class);
 
 		//
 		PersistenceManager pm = JdoUtils.getPm();
 		try {
 			Project project = pm.getObjectById(Project.class, value.getId());
 			project.setName(value.getName());
-			return project.toValue().toJson();
+			return gson.toJson(project.toValue());
 		} finally {
 			JdoUtils.closePm();
 		}

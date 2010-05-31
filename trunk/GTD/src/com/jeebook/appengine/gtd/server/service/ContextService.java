@@ -17,7 +17,7 @@ public class ContextService extends Service {
 	public String get(String pathInfo) throws ServiceException {
 		User user = getUser();
 		String id = getId(pathInfo);
-       
+        
 		if ( id.isEmpty() ) {
 			PersistenceManager pm = JdoUtils.getPm();
 			Query query = pm.newQuery(Context.class);
@@ -25,13 +25,13 @@ public class ContextService extends Service {
 		    query.declareParameters(user.getClass().getName() + " user");
 			List<Context> contexts = (List<Context>)query.execute(user);
 			List<ContextValue> values = Context.toValue(contexts);
-			return ContextValue.toJson(values);
+			return gson.toJson(values);
 		}  else {
 			PersistenceManager pm = JdoUtils.getPm();
 			Context context = pm.getObjectById(Context.class, id);
 			List<ContextValue> values = new ArrayList<ContextValue>();
 			values.add(context.toValue());
-			return ContextValue.toJson(values);
+			return gson.toJson(values);
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class ContextService extends Service {
 	public String create(String json) throws ServiceException { 
 		User user = getUser();
 		
-		ContextValue value = ContextValue.fromJson(json);
+		ContextValue value = gson.fromJson(json, ContextValue.class);
 		Context context = Context.fromValue(user, value);
 
 		//
@@ -51,7 +51,7 @@ public class ContextService extends Service {
 		}
 
 		value = context.toValue();
-		return value.toJson();
+		return gson.toJson(value);
 	}
 
 	@Override
@@ -67,19 +67,19 @@ public class ContextService extends Service {
 			JdoUtils.closePm();
 		}
 		
-		return context.toValue().toJson();
+		return gson.toJson(context.toValue());
 	}
 	
 	@Override
 	public String modify(String json) {
-		ContextValue value = ContextValue.fromJson(json);
+		ContextValue value = gson.fromJson(json, ContextValue.class);
 
 		//
 		PersistenceManager pm = JdoUtils.getPm();
 		try {
 			Context context = pm.getObjectById(Context.class, value.getId());
 			context.setName(value.getName());
-			return context.toValue().toJson();
+			return gson.toJson(context.toValue());
 		} finally {
 			JdoUtils.closePm();
 		}

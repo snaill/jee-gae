@@ -5,8 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
 
 public class Service {
+    Gson gson = new Gson();
+
 	public String get(String pathInfo) throws ServiceException { return null; }
 	public String create(String json) throws ServiceException { return null; }
 	public String delete(String pathInfo) throws ServiceException { return null; }

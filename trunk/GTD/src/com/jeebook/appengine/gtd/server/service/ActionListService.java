@@ -43,7 +43,7 @@ public class ActionListService extends Service {
 			query.declareParameters("Integer status");
 			List<Action> actions = (List<Action>) query.execute(user, status);
 			List<ActionValue> values = Action.toValue(actions);
-			json = ActionValue.toJson(values);
+			json = gson.toJson(values, ActionValue.class);
 		}
 		return json;
 	}
