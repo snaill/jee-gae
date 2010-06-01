@@ -2,33 +2,23 @@ package com.jeebook.appengine.gtd.server.model;
 
 public class ProjectValue {
 
-	private String mId;
+	private String id;
     
-    private String mName;
-    
-    private String mDefaultContextId;
+    private String name;
     
     public final String getId() {
-        return mId;
+        return id;
+    }
+
+    public final void setId( String i ) {
+        id = i;
     }
 
     public final String getName() {
-        return mName;
+        return name;
     }
-
-    public final String getDefaultContextId() {
-        return mDefaultContextId;
-    }  
     
-    public final void setId( String id ) {
-        mId = id;
+    public final void setName( String n ) {
+        name = n;
     }
-
-    public final void setName( String name ) {
-        mName = name;
-    }
-
-    public final void setDefaultContextId( String id ) {
-        mDefaultContextId = id;
-    }   
 }

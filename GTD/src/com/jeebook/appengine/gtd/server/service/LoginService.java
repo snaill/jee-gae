@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.jeebook.appengine.gtd.server.model.LoginValue;
 
 public class LoginService extends Service {	
 
@@ -13,19 +14,19 @@ public class LoginService extends Service {
 		//
 	    UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
-		JsonObject jo = new JsonObject();
+	    LoginValue lv = new LoginValue();
+		Gson gson = new Gson();
 
     	if ( null == user ) {
-    		jo.addProperty("url", userService.createLoginURL("/Shuffle.html"));
-    		throw new ServiceException(HttpServletResponse.SC_UNAUTHORIZED, jo.toString());
+    		lv.setUrl(userService.createLoginURL("/Shuffle.html"));
+    		throw new ServiceException(HttpServletResponse.SC_UNAUTHORIZED, gson.toJson(lv));
     	}
 		else
 		{
-			jo.addProperty("nikename", user.getNickname());
-			jo.addProperty("email", user.getEmail());
-			jo.addProperty("url", userService.createLogoutURL("/index.html"));				
+			lv.setUser(user);
+			lv.setUrl(userService.createLogoutURL("/index.html"));
 		}
 
-		return jo.toString();
+		return gson.toJson(lv);
 	}
 }

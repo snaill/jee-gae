@@ -1,83 +1,83 @@
 package com.jeebook.appengine.gtd.server.model;
 
 public class ActionValue {
-    private String mId;
+    private String id;
     
-    private String mStatus;
+    private String status;
     
-    private String mName;
+    private String name;
 
-    private String mDetails;
+    private String details;
 
-    private String mProjectId;
+    private ProjectValue project;
     
-    private String mContextId;
+    private ContextValue context;
     
-    private String mDueDate;
+    private String dueDate;
 
-    private String mFinishDate;
+    private String finishDate;
     
     public final String getId() {
-        return mId;
+        return id;
     }
 
     public final String getStatus() {
-        return mStatus;
+        return status;
     }
     
 	public final String getName() {
-		return mName;
+		return name;
 	}
 
 	public final String getDetails() {
-		return mDetails;
+		return details;
 	}
 
-	public final String getProjectId() {
-		return mProjectId;
+	public final ProjectValue getProject() {
+		return project;
 	}
 
-	public final String getContextId() {
-		return mContextId;
+	public final ContextValue getContext() {
+		return context;
 	}
 
 	public final String getDueDate() {
-		return mDueDate;
+		return dueDate;
 	}
 
 	public final String getFinishDate() {
-		return mFinishDate;
+		return finishDate;
 	}
 
-    public final void setId( String id ) {
-        mId = id;
+    public final void setId( String i ) {
+        id = i;
     }
 
-    public final void setStatus( String status ) {
-        mStatus = status;
+    public final void setStatus( String s ) {
+        status = s;
     }
 
-	public final void setName( String name ) {
-		mName = name;
+	public final void setName( String n ) {
+		name = n;
 	}
 
-	public final void setDetails( String details ) {
-		mDetails = details;
+	public final void setDetails( String d ) {
+		details = d;
 	}
 
-	public final void setProjectId( String id ) {
-		mProjectId = id;
+	public final void setProject( ProjectValue p ) {
+		project = p;
 	}
 
-	public final void setContextId( String id ) {
-		mContextId = id;
+	public final void setContext( ContextValue c ) {
+		context = c;
 	}
 
 	public final void setDueDate( String date ) {
-		mDueDate = date;
+		dueDate = date;
 	}
 
 	public final void setFinishDate( String date ) {
-		mFinishDate = date;
+		finishDate = date;
 	}	
 }

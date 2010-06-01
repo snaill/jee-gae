@@ -15,9 +15,9 @@ public class ProjectService extends Service {
 	@SuppressWarnings("unchecked")
 	public String get(String pathInfo) throws ServiceException {
 		User user = getUser();
-		String id = getId(pathInfo);
+		Long id = getId(pathInfo);
 
-		if ( id.isEmpty() ) {
+		if ( null == id ) {
 			PersistenceManager pm = JdoUtils.getPm();
 			Query query = pm.newQuery(Project.class);
 			query.setFilter("mUser == user");
@@ -55,7 +55,7 @@ public class ProjectService extends Service {
 
 	@Override
 	public String delete(String pathInfo) {
-		String id = getId(pathInfo);
+		Long id = getId(pathInfo);
 
 		PersistenceManager pm = JdoUtils.getPm();
 		Project project = null;
