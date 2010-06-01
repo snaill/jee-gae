@@ -72,9 +72,9 @@ public class NewActionDialog extends DialogBox {
 		ActionData ad = (ActionData)ActionData.createObject();
 		ad.setName(nameTextBox.getText());
 		ad.setDetails(detailsTextArea.getText());
-		if ( projectListBox.getSelectedIndex() >= 0 )
-			ad.setProjectId(projectListBox.getValue(projectListBox.getSelectedIndex()));
-		ad.setContextId(contextListBox.getValue(contextListBox.getSelectedIndex()));
+//		if ( projectListBox.getSelectedIndex() >= 0 )
+//			ad.setProjectId(projectListBox.getValue(projectListBox.getSelectedIndex()));
+//		ad.setContextId(contextListBox.getValue(contextListBox.getSelectedIndex()));
 		Date dueTime = dueTimeDatePicker.getValue();
 		if ( null != dueTime )
 			ad.setDueDate(dueTime.toString());

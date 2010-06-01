@@ -11,10 +11,10 @@ public class ActionData extends JavaScriptObject {
 	public final native void setName( String name ) /*-{ this.name = name; }-*/;
 	public final native String getDetails() /*-{ return this.details; }-*/;
 	public final native void setDetails( String details ) /*-{ this.details = details; }-*/;
-	public final native String getProjectId() /*-{ return this.projectId; }-*/;
-	public final native void setProjectId( String id ) /*-{ this.projectId = id; }-*/;
-	public final native String getContextId() /*-{ return this.contextId; }-*/;
-	public final native void setContextId( String id ) /*-{ this.contextId = id; }-*/;
+	public final native ProjectData getProject() /*-{ return this.project; }-*/;
+	public final native void setProject( ProjectData pd ) /*-{ this.project = pd; }-*/;
+	public final native ContextData getContext() /*-{ return this.contextId; }-*/;
+	public final native void setContext( ContextData cd ) /*-{ this.context = cd; }-*/;
 	public final native String getDueDate() /*-{ return this.dueDate; }-*/;
 	public final native void setDueDate( String dueDate ) /*-{ this.dueDate = dueDate; }-*/;
 	public final native String getFinishDate() /*-{ return this.finishDate; }-*/;

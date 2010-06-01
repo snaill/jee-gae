@@ -77,8 +77,6 @@ public class NewProjectDialog extends DialogBox {
 	void New() {
 		ProjectData pd = (ProjectData)ProjectData.createObject();
 		pd.setName(nameTextBox.getText());
-		String defaultContextId = defaultContextListBox.getValue(defaultContextListBox.getSelectedIndex());
-		pd.setDefaultContextId(defaultContextId);
 	    new AjaxRequest(RequestBuilder.POST, "project/").send(new JSONObject(pd).toString());
 	}
 }

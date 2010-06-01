@@ -2,12 +2,15 @@ package com.jeebook.appengine.gtd.server.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.users.User;
+import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Action {
@@ -126,10 +129,10 @@ public class Action {
 		action.setName(value.getName());
 		action.setUser(user);
 		action.setDetails(value.getDetails());
-		if ( null != value.getProjectId() )
-			action.setProjectId(Long.parseLong(value.getProjectId()));
-		if ( null != value.getContextId() )
-			action.setContextId(Long.parseLong(value.getContextId()));
+		if ( null != value.getProject() )
+			action.setProjectId(Long.parseLong(value.getProject().getId()));
+		if ( null != value.getContext() )
+			action.setContextId(Long.parseLong(value.getContext().getId()));
 		action.setDueDate(value.getDueDate());
 		action.setFinishDate(value.getFinishDate());
 		return action;
@@ -149,8 +152,16 @@ public class Action {
 		value.setStatus(getStatus().toString());
 		value.setName(getName());
 		value.setDetails(getDetails());
-		value.setProjectId(getProjectId().toString());
-		value.setContextId(getContextId().toString());
+		if ( null != getProjectId() ) {
+			PersistenceManager pm = JdoUtils.getPm();
+			Project project = pm.getObjectById(Project.class, getProjectId().toString());
+			value.setProject(project.toValue());	
+		}
+		if ( null != getContextId() ) {
+			PersistenceManager pm = JdoUtils.getPm();
+			Context context = pm.getObjectById(Context.class, getContextId().toString());
+			value.setContext(context.toValue());	
+		}
 		value.setDueDate(getDueDate());
 		value.setFinishDate(getFinishDate());
 		return value;

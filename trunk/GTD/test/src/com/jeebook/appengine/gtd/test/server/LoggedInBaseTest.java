@@ -12,6 +12,7 @@ import java.net.*;
 import java.nio.charset.Charset;
 
 import com.google.appengine.tools.development.testing.*;
+import com.google.gson.Gson;
 
 public class LoggedInBaseTest extends TestCase {
 
@@ -20,6 +21,8 @@ public class LoggedInBaseTest extends TestCase {
         						   new LocalUserServiceTestConfig(),
         						   new LocalURLFetchServiceTestConfig());
 
+    protected Gson gson = new Gson();
+    
     @Before
     public void setUp() {
         helper.setUp();

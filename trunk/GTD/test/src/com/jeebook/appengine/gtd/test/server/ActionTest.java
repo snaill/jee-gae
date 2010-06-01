@@ -1,54 +1,83 @@
 package com.jeebook.appengine.gtd.test.server;
 
-import junit.framework.TestCase;
+import java.lang.reflect.Type;
+import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
+import junit.framework.Assert;
 import org.junit.Test;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.gson.reflect.TypeToken;
+import com.jeebook.appengine.gtd.server.model.ActionValue;
+import com.jeebook.appengine.gtd.server.service.ActionService;
 
-public class ActionTest extends TestCase {
-    private final LocalServiceTestHelper helper =
-        new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-
-    @Before
-    public void setUp() {
-        helper.setUp();
-    }
-
-    @After
-    public void tearDown() {
-        helper.tearDown();
-    }
-
-    // run this test twice to prove we're not leaking any state across tests
-    private void doTest() {
-//        DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-//        assertEquals(0, ds.prepare(new Query("yam")).countEntities());
-//        ds.put(new Entity("yam"));
-//        ds.put(new Entity("yam"));
-//        assertEquals(2, ds.prepare(new Query("yam")).countEntities());
-    }
+public class ActionTest extends LoggedInBaseTest {
 
     @Test
     public void testNew() {
-//		ActionData ad = (ActionData)ActionData.createObject();
-//		ad.setName("testAction1");
-//		ad.setDetails("testAction1");
-//		ad.setProjectId("2");
-//		ad.setContextId(contextListBox.getValue(contextListBox.getSelectedIndex()));
-//		Date dueTime = dueTimeDatePicker.getValue();
-//		if ( null != dueTime )
-//			ad.setDueDate(dueTime.toString());
-		
-//		new AjaxRequest(RequestBuilder.POST, "action/").send(new JSONObject(ad).toString());	
-
+    	addAction("testAction");
     }
 
+    String addAction( String name ) {
+    	String		response = "";
+    	try {
+    		ActionValue cv = new ActionValue();
+    		cv.setName(name);
+			
+			ActionService service = new ActionService();
+			response = service.create(gson.toJson(cv));
+			
+			ActionValue cv2 = gson.fromJson(response, ActionValue.class);
+			Assert.assertEquals(name, cv2.getName());
+			Assert.assertNotNull(cv2.getId());
+			
+			return cv2.getId();
+		} catch (Exception e) {
+			Assert.fail();
+		}
+		
+		return null;
+    }
+    
     @Test
-    public void testInsert2() {
-        doTest();
+    public void testGet() {
+    	
+    	String id = addAction("testAction1");
+    	
+    	try {
+			ActionService service = new ActionService();
+			String response = service.get(id);
+			
+			Type type = new TypeToken<List<ActionValue>>(){}.getType(); 
+			List<ActionValue> cvs = gson.fromJson(response, type);
+			Assert.assertEquals(1, cvs.size());
+			Assert.assertEquals(id, cvs.get(0).getId());
+			Assert.assertEquals("testAction1", cvs.get(0).getName());
+			
+		} catch (Exception e) {
+			Assert.fail();
+		}
+    }
+    
+    @Test
+    public void testGetAll() {
+    	addAction("testAction1");
+    	addAction("testAction2");
+    	addAction("testAction3");
+    	String id = addAction("testAction4");
+    	addAction("testAction5");
+    	addAction("testAction6");
+    	
+    	try {
+			ActionService service = new ActionService();
+			String response = service.get(null);
+
+			Type type = new TypeToken<List<ActionValue>>(){}.getType(); 
+			List<ActionValue> cvs = gson.fromJson(response, type);
+			Assert.assertEquals(6, cvs.size());
+			Assert.assertEquals(id, cvs.get(3).getId());
+			Assert.assertEquals("testAction4", cvs.get(3).getName());
+		} catch (Exception e) {
+			Assert.fail();
+		}
     }
 }

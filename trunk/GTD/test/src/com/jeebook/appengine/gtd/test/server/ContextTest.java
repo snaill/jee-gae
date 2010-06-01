@@ -1,46 +1,34 @@
 package com.jeebook.appengine.gtd.test.server;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import junit.framework.Assert;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.Test;
-
+import com.google.gson.reflect.TypeToken;
+import com.jeebook.appengine.gtd.server.model.ContextValue;
 import com.jeebook.appengine.gtd.server.service.ContextService;
 
 public class ContextTest extends LoggedInBaseTest {
 
     @Test
     public void testNew() {
-    	JSONObject	jo = new JSONObject();
-    	String		response = "";
-    	try {
-			jo.put("name", "testContext");
-			
-			ContextService service = new ContextService();
-			response = service.create(jo.toString());
-			
-			jo = new JSONObject(response);
-			Assert.assertEquals("testContext", jo.get("name"));
-			
-		} catch (Exception e) {
-			Assert.fail();
-		}
+    	addContext("testContext");
     }
 
     String addContext( String name ) {
-    	JSONObject	jo = new JSONObject();
     	String		response = "";
     	try {
-			jo.put("name", name);
+    		ContextValue cv = new ContextValue();
+    		cv.setName(name);
 			
 			ContextService service = new ContextService();
-			response = service.create(jo.toString());
+			response = service.create(gson.toJson(cv));
 			
-			jo = new JSONObject(response);
-			Assert.assertNotNull(jo.get("id"));
+			ContextValue cv2 = gson.fromJson(response, ContextValue.class);
+			Assert.assertEquals(name, cv2.getName());
+			Assert.assertNotNull(cv2.getId());
 			
-			return jo.getString("id");
+			return cv2.getId();
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -57,11 +45,11 @@ public class ContextTest extends LoggedInBaseTest {
 			ContextService service = new ContextService();
 			String response = service.get(id);
 			
-			JSONArray ja = new JSONArray( response );
-			Assert.assertEquals(1, ja.length());
-			JSONObject jo = (JSONObject)ja.get(0);
-			Assert.assertEquals(id, jo.get("id"));
-			Assert.assertEquals("testContext1", jo.get("name"));
+			Type type = new TypeToken<List<ContextValue>>(){}.getType(); 
+			List<ContextValue> cvs = gson.fromJson(response, type);
+			Assert.assertEquals(1, cvs.size());
+			Assert.assertEquals(id, cvs.get(0).getId());
+			Assert.assertEquals("testContext1", cvs.get(0).getName());
 			
 		} catch (Exception e) {
 			Assert.fail();
@@ -80,13 +68,12 @@ public class ContextTest extends LoggedInBaseTest {
     	try {
 			ContextService service = new ContextService();
 			String response = service.get(null);
-			
-			JSONArray ja = new JSONArray( response );
-			Assert.assertEquals(6, ja.length());
-			JSONObject jo = (JSONObject)ja.get(3);
-			Assert.assertEquals(id, jo.get("id"));
-			Assert.assertEquals("testContext4", jo.get("name"));
-			
+
+			Type type = new TypeToken<List<ContextValue>>(){}.getType(); 
+			List<ContextValue> cvs = gson.fromJson(response, type);
+			Assert.assertEquals(6, cvs.size());
+			Assert.assertEquals(id, cvs.get(3).getId());
+			Assert.assertEquals("testContext4", cvs.get(3).getName());
 		} catch (Exception e) {
 			Assert.fail();
 		}

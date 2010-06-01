@@ -24,12 +24,13 @@ public class Service {
         return user;
 	}
 	
-	protected String getId( String pathInfo ){
-		if ( null == pathInfo )
-			return "";
+	protected Long getId( String pathInfo ){
+		String strId = pathInfo;
+		if ( null == strId )
+			return null;
 		
 		if ( pathInfo.startsWith("/"))
-			return pathInfo.substring(1);
-		return pathInfo;
+			strId = pathInfo.substring(1);
+		return Long.parseLong(strId);
 	}
 }

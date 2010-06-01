@@ -1,11 +1,8 @@
 package com.jeebook.appengine.gtd.test.server;
 
 import junit.framework.Assert;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Test;
-
+import com.jeebook.appengine.gtd.server.model.LoginValue;
 import com.jeebook.appengine.gtd.server.service.LoginService;
 import com.jeebook.appengine.gtd.server.service.ServiceException;
 
@@ -17,9 +14,9 @@ public class LoginTest extends LoggedInBaseTest {
 			LoginService service = new LoginService();
 			String response = service.get("");
 			
-			JSONObject jo = new JSONObject(response);
-			Assert.assertNotNull(jo.get("url"));
-			Assert.assertEquals("test@gmail.com", jo.get("email"));
+			LoginValue lv = gson.fromJson(response, LoginValue.class); 
+			Assert.assertNotNull(lv.getUrl());
+			Assert.assertEquals("test@gmail.com", lv.getUser().getEmail());
 			
 		} catch (Exception e) {
 			Assert.fail();
@@ -35,16 +32,11 @@ public class LoginTest extends LoggedInBaseTest {
 			
     	} catch (ServiceException se) {
     		Assert.assertEquals(401, se.getStatus());
-    		
-    		JSONObject jo;
-			try {
-				jo = new JSONObject(se.getMessage());
 
-				Assert.assertFalse(jo.has("email"));
-				Assert.assertNotNull(jo.get("url"));
-			} catch (JSONException e) {
-				Assert.fail();
-			}
+    		LoginValue lv = gson.fromJson(se.getMessage(), LoginValue.class); 
+			Assert.assertNull(lv.getUser());
+			Assert.assertNotNull(lv.getUrl());
+			
 		} catch (Exception e) {
 			Assert.fail();
 		}
