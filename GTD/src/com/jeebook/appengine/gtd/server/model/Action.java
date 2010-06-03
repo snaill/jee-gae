@@ -15,17 +15,17 @@ import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Action {
 
-	public static final Integer inboxStatus = 1;
-	public static final Integer waitingStatus = 2;
-	public static final Integer somedayStatus = 3;
-	public static final Integer finishStatus = 4;
+	public static final String inboxStatus = "inbox";
+	public static final String waitingStatus = "waiting";
+	public static final String somedayStatus = "someday";
+	public static final String finishStatus = "finish";
 	
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long mId;
 
     @Persistent
-    private Integer mStatus;
+    private String mStatus;
     
     @Persistent
     private User mUser;
@@ -52,7 +52,9 @@ public class Action {
         return mId;
     }
 
-    public final Integer getStatus() {
+    public final String getStatus() {
+    	if ( null == mStatus )
+    		return inboxStatus;
         return mStatus;
     }
     
@@ -88,7 +90,7 @@ public class Action {
         mId = id;
     }
 
-    public final void setStatus( Integer status ) {
+    public final void setStatus( String status ) {
         mStatus = status;
     }
     
@@ -125,7 +127,7 @@ public class Action {
 		if ( null != value.getId() )
 			action.setId(Long.parseLong(value.getId()));
 		if ( null != value.getStatus() )
-			action.setStatus(Integer.parseInt(value.getStatus()));
+			action.setStatus(value.getStatus());
 		action.setName(value.getName());
 		action.setUser(user);
 		action.setDetails(value.getDetails());
