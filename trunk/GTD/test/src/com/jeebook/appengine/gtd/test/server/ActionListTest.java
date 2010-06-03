@@ -2,21 +2,11 @@ package com.jeebook.appengine.gtd.test.server;
 
 import java.lang.reflect.Type;
 import java.util.List;
-
 import junit.framework.Assert;
-import junit.framework.TestCase;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.reflect.TypeToken;
 import com.jeebook.appengine.gtd.server.model.ActionValue;
-import com.jeebook.appengine.gtd.server.model.ContextValue;
 import com.jeebook.appengine.gtd.server.service.ActionService;
-import com.jeebook.appengine.gtd.server.service.ContextService;
 
 
 public class ActionListTest extends LoggedInBaseTest {

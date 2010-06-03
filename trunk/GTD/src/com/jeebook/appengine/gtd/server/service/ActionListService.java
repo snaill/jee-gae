@@ -27,7 +27,7 @@ public class ActionListService extends Service {
 		if (mType == "nextAction") {
 			json = "";
 		} else {
-			Integer status = Action.inboxStatus;
+			String status = Action.inboxStatus;
 			if (mType == "waiting")
 				status = Action.waitingStatus;
 			else if (mType == "someday")
@@ -40,7 +40,7 @@ public class ActionListService extends Service {
 			Query query = pm.newQuery(Action.class);
 			query.setFilter("mUser == user && mStatus == status");
 			query.declareParameters(user.getClass().getName() + " user");
-			query.declareParameters("Integer status");
+			query.declareParameters("String status");
 			List<Action> actions = (List<Action>) query.execute(user, status);
 			List<ActionValue> values = Action.toValue(actions);
 			json = gson.toJson(values, ActionValue.class);
