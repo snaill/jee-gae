@@ -26,7 +26,7 @@ public class Service {
 	
 	protected Long getId( String pathInfo ){
 		String strId = pathInfo;
-		if ( null == strId )
+		if ( null == strId || strId.equals("/") )
 			return null;
 		
 		if ( pathInfo.startsWith("/"))
