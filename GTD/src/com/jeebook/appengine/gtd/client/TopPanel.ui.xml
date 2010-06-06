@@ -39,8 +39,6 @@
       |
       <g:Anchor href='javascript:;' ui:field='newActionLink'>New Action</g:Anchor>
       |
-      <g:Anchor href='javascript:;' ui:field='reportLink'>Report</g:Anchor>      
-      |
       <g:Anchor href='javascript:;' ui:field='loginLink'>Sign In</g:Anchor>
     </div>
   </g:HTMLPanel>
