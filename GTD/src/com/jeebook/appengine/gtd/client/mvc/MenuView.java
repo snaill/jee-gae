@@ -8,29 +8,21 @@
 package com.jeebook.appengine.gtd.client.mvc;
 
 import com.extjs.gxt.ui.client.Registry;
-import com.extjs.gxt.ui.client.Style.LayoutRegion;
-import com.extjs.gxt.ui.client.event.ComponentEvent;
-import com.extjs.gxt.ui.client.event.Events;
-import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
 import com.extjs.gxt.ui.client.event.SelectionChangedListener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
-import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.mvc.View;
-import com.extjs.gxt.ui.client.util.Margins;
+import com.extjs.gxt.ui.client.store.TreeStore;
+import com.extjs.gxt.ui.client.util.IconHelper;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.extjs.gxt.ui.client.widget.LayoutContainer;
-import com.extjs.gxt.ui.client.widget.Viewport;
-import com.extjs.gxt.ui.client.widget.layout.AccordionLayout;
-import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
-import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
-import com.extjs.gxt.ui.client.widget.layout.FitLayout;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.jeebook.appengine.gtd.client.AppEvents;
-import com.jeebook.appengine.gtd.client.TopPanel;
+import com.extjs.gxt.ui.client.widget.treepanel.TreePanel;
+import com.jeebook.appengine.gtd.client.model.MenuModel;
 
 public class MenuView extends View {
 
+	TreePanel<MenuModel> tree;
+	
   public MenuView(Controller controller) {
     super(controller);
   }
@@ -50,33 +42,60 @@ public class MenuView extends View {
  //       Dispatcher.get().dispatch(AppEvents.NavMail);
  //     }
  //   });
-/*
-    loader = new BaseTreeLoader<Folder>(new TreeModelReader<List<Folder>>());
-    store = new TreeStore<Folder>(loader);
 
-    tree = new TreePanel<Folder>(store);
+    TreeStore<MenuModel> store = new TreeStore<MenuModel>();
+    store.add(new MenuModel("Inbox"), false);
+    store.add(new MenuModel("Next Action"), false);
+    store.add(new MenuModel("Waiting for"), false);
+    store.add(new MenuModel("Someday"), false);
+    store.add(new MenuModel("Projects"), false);
+    store.add(new MenuModel("Contexts"), false);
+
+    tree = new TreePanel<MenuModel>(store);
     tree.getStyle().setLeafIcon(IconHelper.createStyle("tree-folder"));
     tree.setDisplayProperty("name");
     tree.setAutoSelect(true);
     tree.getSelectionModel().addSelectionChangedListener(
-        new SelectionChangedListener<Folder>() {
+        new SelectionChangedListener<MenuModel>() {
 
           @Override
-          public void selectionChanged(SelectionChangedEvent<Folder> se) {
-            Folder f = (Folder) se.getSelection().get(0);
-            AppEvent evt = new AppEvent(AppEvents.ViewMailItems, f);
-            fireEvent(evt);
+          public void selectionChanged(SelectionChangedEvent<MenuModel> se) {
+        	  MenuModel f = (MenuModel) se.getSelection().get(0);
+  //          AppEvent evt = new AppEvent(AppEvents.ViewMailItems, f);
+  //          fireEvent(evt);
           }
         });
 
     menu.add(tree);
-*/    return menu;
+    return menu;
   }
   
   ContentPanel createReportMenu() {
     ContentPanel menu = new ContentPanel();
     menu.setAnimCollapse(false);
     menu.setHeading("Report"); 
+    
+    TreeStore<MenuModel> store = new TreeStore<MenuModel>();
+    store.add(new MenuModel("Last week"), false);
+    store.add(new MenuModel("Last month"), false);
+    store.add(new MenuModel("Last year"), false);
+
+    tree = new TreePanel<MenuModel>(store);
+    tree.getStyle().setLeafIcon(IconHelper.createStyle("tree-folder"));
+    tree.setDisplayProperty("name");
+    tree.setAutoSelect(true);
+    tree.getSelectionModel().addSelectionChangedListener(
+        new SelectionChangedListener<MenuModel>() {
+
+          @Override
+          public void selectionChanged(SelectionChangedEvent<MenuModel> se) {
+        	  MenuModel f = (MenuModel) se.getSelection().get(0);
+  //          AppEvent evt = new AppEvent(AppEvents.ViewMailItems, f);
+  //          fireEvent(evt);
+          }
+        });
+
+    menu.add(tree);
     return menu;
   }
   
