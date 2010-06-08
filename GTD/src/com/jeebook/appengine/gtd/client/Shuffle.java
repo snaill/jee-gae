@@ -5,6 +5,7 @@ import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.util.Theme;
 import com.google.gwt.core.client.EntryPoint;
 import com.jeebook.appengine.gtd.client.mvc.AppController;
+import com.jeebook.appengine.gtd.client.mvc.ContentController;
 import com.jeebook.appengine.gtd.client.mvc.MenuController;
 
 public class Shuffle implements EntryPoint {
@@ -19,6 +20,7 @@ public class Shuffle implements EntryPoint {
 	  Dispatcher dispatcher = Dispatcher.get();
 	  dispatcher.addController(new AppController());
 	  dispatcher.addController(new MenuController());
+	  dispatcher.addController(new ContentController());
 	    
 	  dispatcher.dispatch(AppEvents.Init);
 	  GXT.hideLoadingPanel("loading");
