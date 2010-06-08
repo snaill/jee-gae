@@ -19,6 +19,7 @@ import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.layout.AccordionLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
+import com.extjs.gxt.ui.client.widget.layout.CardLayout;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.jeebook.appengine.gtd.client.TopPanel;
@@ -80,7 +81,7 @@ public class AppView extends View {
 
   private void createCenter() {
     center = new LayoutContainer();
-    center.setLayout(new FitLayout());
+    center.setLayout(new CardLayout());
 
     BorderLayoutData data = new BorderLayoutData(LayoutRegion.CENTER);
     data.setMargins(new Margins(5, 5, 5, 5));

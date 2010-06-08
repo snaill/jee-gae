@@ -17,4 +17,6 @@ public class AppEvents {
 
   public static final EventType Error = new EventType();
 
+  public static final EventType MenuSelected = new EventType();
+
 }

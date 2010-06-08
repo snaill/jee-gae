@@ -12,17 +12,17 @@ import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
 import com.extjs.gxt.ui.client.event.SelectionChangedListener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.mvc.View;
 import com.extjs.gxt.ui.client.store.TreeStore;
 import com.extjs.gxt.ui.client.util.IconHelper;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.treepanel.TreePanel;
+import com.jeebook.appengine.gtd.client.AppEvents;
 import com.jeebook.appengine.gtd.client.model.MenuModel;
 
 public class MenuView extends View {
 
-	TreePanel<MenuModel> tree;
-	
   public MenuView(Controller controller) {
     super(controller);
   }
@@ -44,14 +44,14 @@ public class MenuView extends View {
  //   });
 
     TreeStore<MenuModel> store = new TreeStore<MenuModel>();
-    store.add(new MenuModel("Inbox"), false);
-    store.add(new MenuModel("Next Action"), false);
-    store.add(new MenuModel("Waiting for"), false);
-    store.add(new MenuModel("Someday"), false);
-    store.add(new MenuModel("Projects"), false);
-    store.add(new MenuModel("Contexts"), false);
+    store.add(new MenuModel("Inbox", MenuModel.ACTION_TYPE), false);
+    store.add(new MenuModel("Next Action", MenuModel.ACTION_TYPE), false);
+    store.add(new MenuModel("Waiting for", MenuModel.ACTION_TYPE), false);
+    store.add(new MenuModel("Someday", MenuModel.ACTION_TYPE), false);
+    store.add(new MenuModel("Project", MenuModel.PROJECT_TYPE), false);
+    store.add(new MenuModel("Context", MenuModel.CONTEXT_TYPE), false);
 
-    tree = new TreePanel<MenuModel>(store);
+    TreePanel<MenuModel> tree = new TreePanel<MenuModel>(store);
     tree.getStyle().setLeafIcon(IconHelper.createStyle("tree-folder"));
     tree.setDisplayProperty("name");
     tree.setAutoSelect(true);
@@ -61,8 +61,7 @@ public class MenuView extends View {
           @Override
           public void selectionChanged(SelectionChangedEvent<MenuModel> se) {
         	  MenuModel f = (MenuModel) se.getSelection().get(0);
-  //          AppEvent evt = new AppEvent(AppEvents.ViewMailItems, f);
-  //          fireEvent(evt);
+              Dispatcher.get().dispatch(AppEvents.MenuSelected, f);
           }
         });
 
@@ -76,11 +75,11 @@ public class MenuView extends View {
     menu.setHeading("Report"); 
     
     TreeStore<MenuModel> store = new TreeStore<MenuModel>();
-    store.add(new MenuModel("Last week"), false);
-    store.add(new MenuModel("Last month"), false);
-    store.add(new MenuModel("Last year"), false);
+    store.add(new MenuModel("Last week", MenuModel.REPORT_TYPE), false);
+    store.add(new MenuModel("Last month", MenuModel.REPORT_TYPE), false);
+    store.add(new MenuModel("Last year", MenuModel.REPORT_TYPE), false);
 
-    tree = new TreePanel<MenuModel>(store);
+    TreePanel<MenuModel> tree = new TreePanel<MenuModel>(store);
     tree.getStyle().setLeafIcon(IconHelper.createStyle("tree-folder"));
     tree.setDisplayProperty("name");
     tree.setAutoSelect(true);
@@ -90,8 +89,7 @@ public class MenuView extends View {
           @Override
           public void selectionChanged(SelectionChangedEvent<MenuModel> se) {
         	  MenuModel f = (MenuModel) se.getSelection().get(0);
-  //          AppEvent evt = new AppEvent(AppEvents.ViewMailItems, f);
-  //          fireEvent(evt);
+              Dispatcher.get().dispatch(AppEvents.MenuSelected, f);
           }
         });
 

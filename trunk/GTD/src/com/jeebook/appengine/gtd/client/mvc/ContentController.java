@@ -1,10 +1,3 @@
-/*
- * Ext GWT - Ext for GWT
- * Copyright(c) 2007-2009, Ext JS, LLC.
- * licensing@extjs.com
- * 
- * http://extjs.com/license
- */
 package com.jeebook.appengine.gtd.client.mvc;
 
 import com.extjs.gxt.ui.client.event.EventType;
@@ -14,19 +7,22 @@ import com.jeebook.appengine.gtd.client.AppEvents;
 
 public class ContentController extends Controller {
 
+	ContentView view;
+	
   public ContentController() {
     registerEventTypes(AppEvents.Init);
+    registerEventTypes(AppEvents.MenuSelected);
   }
   
   public void initialize() {
-
+	  view = new ContentView(this);
   }
 
   @Override
   public void handleEvent(AppEvent event) {
     EventType type = event.getType();
- //   if (type == AppEvents.Init) {
- //     forwardToView(view, event);
- //   }
+    if (type == AppEvents.MenuSelected) {
+      forwardToView(view, event);
+    }
   }
 }
