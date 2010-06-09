@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.jeebook.appengine.gtd.client.model.LoginData;
 import com.jeebook.appengine.gtd.client.service.AjaxRequest;
+import com.jeebook.appengine.gtd.client.widget.ActionDialog;
 
 /**
  * The top panel, which contains the 'welcome' message and various links.
@@ -58,8 +59,9 @@ public class TopPanel extends Composite {
 
   @UiHandler("newActionLink")
 	void onNewActionClick(ClickEvent e) {
-	  NewActionDialog dlg = new NewActionDialog();
+	  ActionDialog dlg = new ActionDialog(null);
+//	  NewActionDialog dlg = new NewActionDialog();
 	  dlg.show();
-	  dlg.center();
+//	  dlg.center();
 	}
 }
