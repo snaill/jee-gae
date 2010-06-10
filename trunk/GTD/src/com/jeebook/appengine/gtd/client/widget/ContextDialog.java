@@ -30,8 +30,10 @@ public class ContextDialog extends FormDialog {
 
 	    	public void handleEvent(ComponentEvent e) {
 	    		super.handleEvent(e);
+	    		
 	    		switch ( e.getKeyCode() ) {
     			case KeyCodes.KEY_ENTER:
+    	    		if ( e.getType() == Events.KeyPress )
     					mSaveButton.fireEvent(Events.Select);
     				break;
     				default:

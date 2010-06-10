@@ -32,6 +32,7 @@ public class ProjectDialog extends FormDialog {
 	    		super.handleEvent(e);
 	    		switch ( e.getKeyCode() ) {
     			case KeyCodes.KEY_ENTER:
+    				if ( e.getType() == Events.KeyPress )
     					mSaveButton.fireEvent(Events.Select);
     				break;
     				default:

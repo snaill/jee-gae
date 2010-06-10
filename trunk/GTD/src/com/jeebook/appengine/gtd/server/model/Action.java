@@ -1,5 +1,6 @@
 package com.jeebook.appengine.gtd.server.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +10,15 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Unique;
+
 import com.google.appengine.api.users.User;
 import com.jeebook.appengine.gtd.server.persistence.JdoUtils;
 
+@SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Action {
+@Unique(members={"mId", "mName"})
+public class Action implements Serializable {
 
 	public static final String inboxStatus = "inbox";
 	public static final String waitingStatus = "waiting";
@@ -23,12 +28,12 @@ public class Action {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long mId;
-
-    @Persistent
-    private String mStatus;
     
     @Persistent
     private User mUser;
+    
+    @Persistent
+    private String mStatus;
     
     @Persistent
     private String mName;

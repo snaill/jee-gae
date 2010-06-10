@@ -9,10 +9,13 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Unique;
+
 import com.google.appengine.api.users.User;
 
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
+@Unique(members={"mId", "mName"})
 public class Project implements Serializable {
     
     @PrimaryKey
@@ -23,6 +26,7 @@ public class Project implements Serializable {
     private User mUser;
     
     @Persistent
+    @Unique
     private String mName;
     
     public final Long getId() {

@@ -24,6 +24,5 @@ public class Shuffle implements EntryPoint {
 	    
 	  dispatcher.dispatch(AppEvents.Init);
 	  GXT.hideLoadingPanel("loading");
-	  
   }
 }
