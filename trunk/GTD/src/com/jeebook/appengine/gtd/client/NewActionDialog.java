@@ -55,10 +55,10 @@ public class NewActionDialog extends DialogBox {
 	void updateProjectListBox() {
 		projectListBox.clear();
 		
-		new AjaxRequest(RequestBuilder.GET, "project/") {
+		new AjaxRequest(null, RequestBuilder.GET, "project/") {
 			
 			@Override
-			public void onSuccess(String response){
+			public void onSuccess(Object param, String response){
 				JSONArray ja = (JSONArray)JSONParser.parse(response);
 				for ( int i = 0; i < ja.size(); i ++ ) {
 					ProjectData pd = (ProjectData)ja.get(i).isObject().getJavaScriptObject(); 
@@ -79,7 +79,7 @@ public class NewActionDialog extends DialogBox {
 		if ( null != dueTime )
 			ad.setDueDate(dueTime.toString());
 		
-		new AjaxRequest(RequestBuilder.POST, "action/").send(new JSONObject(ad).toString());	
+		new AjaxRequest(null, RequestBuilder.POST, "action/").send(new JSONObject(ad).toString());	
 	}
 	
 	  @Override

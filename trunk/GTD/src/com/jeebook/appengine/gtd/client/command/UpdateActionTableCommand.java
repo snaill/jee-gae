@@ -23,10 +23,10 @@ public class UpdateActionTableCommand implements Command {
 		// TODO Auto-generated method stub
 		mTable.clear();
 		
-		new AjaxRequest(RequestBuilder.GET, mUri) {
+		new AjaxRequest(null, RequestBuilder.GET, mUri) {
 			
 			@Override
-			public void onSuccess(String response){
+			public void onSuccess(Object param, String response){
 				JSONArray ja = (JSONArray)JSONParser.parse(response);
 				for ( int i = 0; i < ja.size(); i ++ ) {
 					ActionData ad = (ActionData)ja.get(i).isObject().getJavaScriptObject(); 

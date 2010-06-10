@@ -74,6 +74,6 @@ public class NewContextDialog extends DialogBox {
 		void New() {
 			ContextData cd = (ContextData)ContextData.createObject();
 			cd.setName(nameTextBox.getText());
-		    new AjaxRequest(RequestBuilder.POST, "context/").send(new JSONObject(cd).toString());
+		    new AjaxRequest(null, RequestBuilder.POST, "context/").send(new JSONObject(cd).toString());
 		}
 }

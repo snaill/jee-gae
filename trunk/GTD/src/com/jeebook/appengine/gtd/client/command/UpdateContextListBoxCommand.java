@@ -20,10 +20,10 @@ public class UpdateContextListBoxCommand implements Command {
 		// TODO Auto-generated method stub
 		mContextListBox.clear();
 			
-		new AjaxRequest(RequestBuilder.GET, "context/") {
+		new AjaxRequest(null, RequestBuilder.GET, "context/") {
 			
 			@Override
-			public void onSuccess(String response){
+			public void onSuccess(Object param, String response){
 				JSONArray ja = (JSONArray)JSONParser.parse(response);
 				for ( int i = 0; i < ja.size(); i ++ ) {
 					ContextData pd = (ContextData)ja.get(i).isObject().getJavaScriptObject(); 

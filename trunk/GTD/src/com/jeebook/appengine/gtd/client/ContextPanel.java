@@ -31,10 +31,10 @@ public class ContextPanel extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		button.setText("");
 		
-		new AjaxRequest(RequestBuilder.GET, "context/") {
+		new AjaxRequest(null, RequestBuilder.GET, "context/") {
 			
 			@Override
-			public void onSuccess(String response){
+			public void onSuccess(Object param, String response){
 				JSONValue jv = JSONParser.parse(response);
 				update( null, jv );
 			}
