@@ -45,10 +45,10 @@ public class TopPanel extends Composite {
   public TopPanel() {
     initWidget(uiBinder.createAndBindUi(this));
     
-    new AjaxRequest(RequestBuilder.GET, "login") {
+    new AjaxRequest(null, RequestBuilder.GET, "login") {
     	
     	@Override
-    	public void onSuccess(String response){
+    	public void onSuccess(Object param, String response){
     		LoginData ld = LoginData.fromJson(response);
        	  	emailSpan.setInnerText(ld.getEmail());
        	  	loginLink.setText("Sign out");

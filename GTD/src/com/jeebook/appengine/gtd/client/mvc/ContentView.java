@@ -1,6 +1,7 @@
 package com.jeebook.appengine.gtd.client.mvc;
 
 import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
@@ -9,14 +10,13 @@ import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.layout.CardLayout;
 import com.jeebook.appengine.gtd.client.AppEvents;
-import com.jeebook.appengine.gtd.client.model.MenuModel;
 
 public class ContentView extends View {
 
-	Grid<MenuModel> actionGrid;
-	Grid<MenuModel> projectGrid;
-	Grid<MenuModel> contextGrid;
-	Grid<MenuModel> reportGrid;
+	Grid<ModelData> actionGrid;
+	Grid<ModelData> projectGrid;
+	Grid<ModelData> contextGrid;
+	Grid<ModelData> reportGrid;
 	
   public ContentView(Controller controller) {
     super(controller);
@@ -33,8 +33,8 @@ public class ContentView extends View {
   }
   
   protected void onMenuSelected(AppEvent event) {
-	  MenuModel mm = (MenuModel)event.getData();
-	  if ( MenuModel.ACTION_TYPE.equals( mm.getType() ) ){
+	  ModelData mm = (ModelData)event.getData();
+	  if ( MenuView.ACTION_TYPE.equals( mm.get("type") ) ){
 		  activeActionGrid("");
 	  }
 		  
@@ -43,7 +43,7 @@ public class ContentView extends View {
   protected void activeActionGrid(String url) {
       ContentPanel panel = (ContentPanel) Registry.get(AppView.CENTER_PANEL);
 	  if ( null == actionGrid ) {
-		  actionGrid = new Grid<MenuModel>(null, null);
+		  actionGrid = new Grid<ModelData>(null, null);
 		  panel.add(actionGrid);
 	  }
 	  

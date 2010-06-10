@@ -77,6 +77,6 @@ public class NewProjectDialog extends DialogBox {
 	void New() {
 		ProjectData pd = (ProjectData)ProjectData.createObject();
 		pd.setName(nameTextBox.getText());
-	    new AjaxRequest(RequestBuilder.POST, "project/").send(new JSONObject(pd).toString());
+	    new AjaxRequest(null, RequestBuilder.POST, "project/").send(new JSONObject(pd).toString());
 	}
 }

@@ -8,8 +8,11 @@ import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 
 public class AjaxRequest {
-	RequestBuilder mBuilder; 
-	public AjaxRequest( RequestBuilder.Method methed, String url ) {
+	RequestBuilder 	mBuilder; 
+	Object			mParam;
+	
+	public AjaxRequest( Object param, RequestBuilder.Method methed, String url ) {
+		mParam = param;
 		mBuilder = new RequestBuilder(methed, GWT.getModuleBaseURL() + url);
 		mBuilder.setCallback(new RequestCallback(){
 
@@ -23,7 +26,7 @@ public class AjaxRequest {
 
 				switch ( response.getStatusCode() ) {
 					case Response.SC_OK:
-						onSuccess(response.getText());
+						onSuccess(mParam, response.getText());
 						break;
 					case Response.SC_UNAUTHORIZED:{
 						String json = response.getText();
@@ -47,7 +50,7 @@ public class AjaxRequest {
 		}
 	}
 
-	public void onSuccess(String response){}
+	public void onSuccess(Object param, String response){}
 	public void onFail(String text){
 		Window.alert(text);
 	}

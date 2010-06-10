@@ -1,84 +1,92 @@
 package com.jeebook.appengine.gtd.client.widget;
 
-import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.widget.Component;
-import com.extjs.gxt.ui.client.widget.ComponentPlugin;
-import com.extjs.gxt.ui.client.widget.Dialog;
-import com.extjs.gxt.ui.client.widget.Slider;
-import com.extjs.gxt.ui.client.widget.Status;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.form.CheckBox;
-import com.extjs.gxt.ui.client.widget.form.CheckBoxGroup;
-import com.extjs.gxt.ui.client.widget.form.ComboBox;
-import com.extjs.gxt.ui.client.widget.form.DateField;
-import com.extjs.gxt.ui.client.widget.form.FormButtonBinding;
-import com.extjs.gxt.ui.client.widget.form.FormPanel;
-import com.extjs.gxt.ui.client.widget.form.Radio;
-import com.extjs.gxt.ui.client.widget.form.RadioGroup;
-import com.extjs.gxt.ui.client.widget.form.SliderField;
-import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.TextField;
-import com.extjs.gxt.ui.client.widget.form.TimeField;
-import com.extjs.gxt.ui.client.widget.layout.FormData;
-import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
-import com.jeebook.appengine.gtd.client.model.ActionData;
-import com.jeebook.appengine.gtd.client.model.ProjectData;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.json.client.JSONObject;
+import com.jeebook.appengine.gtd.client.model.ContextData;
+import com.jeebook.appengine.gtd.client.service.AjaxRequest;
 
-public class ProjectDialog extends Dialog {
+public class ProjectDialog extends FormDialog {
 	
-	public ProjectDialog(ProjectData pd) {
-		setHeading("Project");
-		setModal(true);
-		
-	    FormPanel simple = new FormPanel(); 
-	    simple.setHeaderVisible(false);
-	    simple.setFrame(true);  
-	    simple.setAutoWidth(true);
+	TextField<String> mNameTextField;
+	Button			  mSaveButton;
+	Button			  mCloseButton;	
+	
+	public ProjectDialog(ContextData pd) {
+		super("Project");
+		setHeight(150);
 
-	    TextField<String> firstName = new TextField<String>();  
-	    firstName.setFieldLabel("Name");  
-	    firstName.setAllowBlank(false);  
-	    firstName.setData("text", "Enter your fist name");  
-	    simple.add(firstName, new FormData("-20"));  
-	      
-	    add(simple);
+		mNameTextField = new TextField<String>();  
+	    mNameTextField.setFieldLabel("Name");  
+	    mNameTextField.setAllowBlank(false); 
+	    mNameTextField.addKeyListener(new KeyListener(){
+
+	    	public void handleEvent(ComponentEvent e) {
+	    		super.handleEvent(e);
+	    		switch ( e.getKeyCode() ) {
+    			case KeyCodes.KEY_ENTER:
+    					mSaveButton.fireEvent(Events.Select);
+    				break;
+    				default:
+	    	    		if ( mNameTextField.getValue() != null )
+	    	    		{
+	    	    			if ( !mSaveButton.isEnabled() )
+	    	    				mSaveButton.enable();
+	    	    		}
+	    	    		else {
+	    	    			if ( mSaveButton.isEnabled() )
+	    	    				mSaveButton.disable();
+	    	    		}	
+  		
+	    	}}
+	    });
+	    mNameTextField.focus();
+	    addField(mNameTextField);  
 	}
 	
 	  @Override
 	  protected void createButtons() {
-	    super.createButtons();
+		  super.createButtons();
 	    
-	    Status status = new Status();
-	    status.setBusy("please wait...");
-	    status.hide();
-	    status.setAutoWidth(true);
-	    getButtonBar().add(status);
-	    
-	    getButtonBar().add(new FillToolItem());
-	    
-	    Button save = new Button("Save");
-	    save.addSelectionListener(new SelectionListener<ButtonEvent>() {
+	    mSaveButton = new Button("Save");
+	    mSaveButton.disable();
+	    mSaveButton.addSelectionListener(new SelectionListener<ButtonEvent>() {
 	      public void componentSelected(ButtonEvent ce) {
-//	        userName.reset();
-//	        password.reset();
-//	        validate();
-//	        userName.focus();
-	      }
-
-	    });
-
-	    Button close = new Button("Close");
-	    close.addSelectionListener(new SelectionListener<ButtonEvent>() {
-	      public void componentSelected(ButtonEvent ce) {
-//	        onSubmit();
+	    	  begin();
+			ContextData cd = (ContextData)ContextData.createObject();
+			cd.setName(mNameTextField.getValue());
+		    new AjaxRequest(null, RequestBuilder.POST, "project/") {
+				
+				@Override
+				public void onSuccess(Object param, String response){
+					reset();
+				}
+			}.send(new JSONObject(cd).toString());
 	      }
 	    });
+	    addButton(mSaveButton);
+	    setDefaultButton(mSaveButton);
 
-	    addButton(save);
-	    addButton(close);
-
+	    mCloseButton = new Button("Close");
+	    mCloseButton.addSelectionListener(new SelectionListener<ButtonEvent>() {
+	      public void componentSelected(ButtonEvent ce) {
+				endDialog();
+	      }
+	    });
+	    addButton(mCloseButton);
+	  } 
+	  
+	  void reset() {
+			end();
+		    mSaveButton.disable();
+			mNameTextField.clear();
+			mNameTextField.focus();
 	  }
 }
