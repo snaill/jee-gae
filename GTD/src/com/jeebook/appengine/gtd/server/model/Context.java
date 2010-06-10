@@ -8,10 +8,13 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Unique;
+
 import com.google.appengine.api.users.User;
 
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
+@Unique(members={"mId", "mName"})
 public class Context implements Serializable {
    
     @PrimaryKey
@@ -22,7 +25,7 @@ public class Context implements Serializable {
     private User mUser;
     
     @Persistent
-	private String name;
+	private String mName;
 	
 	public final Long getId() {
 		return mId;
@@ -33,7 +36,7 @@ public class Context implements Serializable {
 	}
 	
 	public final String getName() {
-		return name;
+		return mName;
 	}
 	
 	public final void setId( Long id ) {
@@ -44,8 +47,8 @@ public class Context implements Serializable {
 	    mUser = user;
 	}
 	
-	public final void setName( String nam ) {
-		name = nam;
+	public final void setName( String name ) {
+		mName = name;
 	}
 	
 	public static Context fromValue( User user, ContextValue value ) {

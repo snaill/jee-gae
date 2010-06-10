@@ -24,7 +24,7 @@ public class BaseServlet extends HttpServlet {
 	
 	Service getService(String method) {
 		if ( mType.equals( "action" ) )
-			return new LoginService();
+			return new ActionService();
 		else if ( mType.equals( "login" ) )
 			return new LoginService();
 		else if ( mType.equals( "context" ) )
