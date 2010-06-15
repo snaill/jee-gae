@@ -68,7 +68,7 @@ public class AppView extends View {
 
   private void createWest() {
     BorderLayoutData data = new BorderLayoutData(LayoutRegion.WEST, 200, 150, 350);
-    data.setMargins(new Margins(0, 0, 5, 5));
+    data.setMargins(new Margins(5, 0, 5, 5));
 
     west = new ContentPanel();
     west.setBodyBorder(false);
