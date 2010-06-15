@@ -44,7 +44,7 @@ public class TopPanel extends Composite {
   
   public TopPanel() {
     initWidget(uiBinder.createAndBindUi(this));
-    
+ 
     new AjaxRequest(null, RequestBuilder.GET, "login") {
     	
     	@Override

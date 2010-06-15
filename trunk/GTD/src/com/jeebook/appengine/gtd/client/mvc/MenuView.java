@@ -24,7 +24,10 @@ import com.jeebook.appengine.gtd.client.AppEvents;
 
 public class MenuView extends View {
 
-	  public static final String ACTION_TYPE = "action";
+	  public static final String INBOX_TYPE = "inbox";
+	  public static final String NEXTACTION_TYPE = "nextaction";
+	  public static final String WAITINGFOR_TYPE = "waitingfor";
+	  public static final String SOMEDAY_TYPE = "someday";
 	  public static final String PROJECT_TYPE = "project";
 	  public static final String CONTEXT_TYPE = "context";
 	  public static final String REPORT_TYPE = "report";
@@ -50,10 +53,10 @@ public class MenuView extends View {
  //   });
 
     TreeStore<ModelData> store = new TreeStore<ModelData>();
-    store.add(createModel("Inbox", ACTION_TYPE), false);
-    store.add(createModel("Next Action", ACTION_TYPE), false);
-    store.add(createModel("Waiting for", ACTION_TYPE), false);
-    store.add(createModel("Someday", ACTION_TYPE), false);
+    store.add(createModel("Inbox", INBOX_TYPE), false);
+    store.add(createModel("Next Action", NEXTACTION_TYPE), false);
+    store.add(createModel("Waiting for", WAITINGFOR_TYPE), false);
+    store.add(createModel("Someday", SOMEDAY_TYPE), false);
     store.add(createModel("Project", PROJECT_TYPE), false);
     store.add(createModel("Context", CONTEXT_TYPE), false);
 
